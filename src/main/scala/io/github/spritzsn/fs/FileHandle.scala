@@ -1,6 +1,6 @@
 package io.github.spritzsn.fs
 
-import io.github.spritzsn.libuv.{File, FileReq, defaultLoop, errorMessage}
+import io.github.spritzsn.libuv.{FileReq, defaultLoop, errorMessage}
 
 import scala.concurrent.{Future, Promise}
 
@@ -21,3 +21,5 @@ implicit class FileHandle(val fd: Int) extends AnyVal:
 
     defaultLoop.write(data, 0, fd, writecb)
     promise.future
+
+  def close(): Unit = defaultLoop.close(fd)
