@@ -13,6 +13,7 @@ implicit class FileHandle(val fd: Int) extends AnyVal:
     def writecb(req: FileReq): Unit =
       val res = req.getResult
 
+      println(fd)
       if res < 0 then promise.failure(new RuntimeException(errorMessage(res, "uv_fs_write callback")))
       else if idx + res < len then
         idx += res
