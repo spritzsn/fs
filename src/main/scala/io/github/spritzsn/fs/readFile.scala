@@ -12,12 +12,12 @@ def readFile(path: String): Future[ArraySeq[Byte]] =
   val promise = Promise[ArraySeq[Byte]]()
   val buf = new ArrayBuffer[Byte]
 
-  def opencb(req: File): Unit =
+  def opencb(req: FileReq): Unit =
     val openres = req.getResult
 
     if openres < 0 then promise.failure(new RuntimeException(errorMessage(openres, "uv_fs_open callback")))
     else
-      def readcb(req: File): Unit =
+      def readcb(req: FileReq): Unit =
         val res = req.getResult
 
         if res < 0 then promise.failure(new RuntimeException(errorMessage(res, "uv_fs_read callback")))
