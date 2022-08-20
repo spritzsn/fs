@@ -3,6 +3,7 @@ package io.github.spritzsn.fs
 import io.github.spritzsn.libuv.{FileReq, defaultLoop, errorMessage}
 
 import scala.concurrent.{Future, Promise}
+import scala.io.Codec
 
 implicit class FileHandle(val fd: Int) extends AnyVal:
   def write(data: collection.IndexedSeq[Byte]): Future[FileHandle] =
@@ -21,5 +22,7 @@ implicit class FileHandle(val fd: Int) extends AnyVal:
 
     defaultLoop.write(data, 0, fd, writecb)
     promise.future
+
+  def write(data: String, codec: Codec = Codec.UTF8): Future[FileHandle] = write(data.getBytes(codec.charSet))
 
   def close(): Unit = defaultLoop.close(fd)
