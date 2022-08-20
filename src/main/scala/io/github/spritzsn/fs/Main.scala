@@ -1,3 +1,7 @@
 package io.github.spritzsn.fs
 
-@main def run(): Unit = ()
+import io.github.spritzsn.libuv.*
+import io.github.spritzsn.async.loop
+
+@main def run(): Unit =
+  open("asdf", O_CREAT, S_IRWXU).onComplete(t => println(t))
