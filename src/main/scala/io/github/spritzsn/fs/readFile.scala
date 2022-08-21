@@ -1,7 +1,7 @@
 package io.github.spritzsn.fs
 
 import io.github.spritzsn.libuv.*
-import io.github.spritzsn.async.loop
+import io.github.spritzsn.async._
 
 import scala.collection.immutable.ArraySeq
 import scala.collection.mutable.ArrayBuffer
