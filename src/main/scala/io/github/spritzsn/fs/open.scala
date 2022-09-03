@@ -6,7 +6,7 @@ import scala.concurrent.{Future, Promise}
 
 val DEFAULT_MODE = S_IRGRP|S_IWGRP|S_IRUSR|S_IWUSR|S_IROTH|S_IWOTH
 
-def open(path: String, flags: Int, mode: Int = DEFAULT_MODE): Future[FileHandle] =
+def open(path: String, flags: Int, mode: Int): Future[FileHandle] =
   val promise = Promise[FileHandle]()
 
   def opencb(req: FileReq): Unit =
@@ -18,17 +18,20 @@ def open(path: String, flags: Int, mode: Int = DEFAULT_MODE): Future[FileHandle]
   defaultLoop.open(path, flags, mode, opencb)
   promise.future
 
-def open(path: String, flags: String, mode: Int): Future[FileHandle] =
+def open(path: String, flags: String, mode: Int = DEFAULT_MODE): Future[FileHandle] =
   val flagbits =
     flags match
       case "a" => O_CREAT|O_APPEND|O_WRONLY
+      case "ax" => O_CREAT|O_APPEND|O_EXCL|O_WRONLY
       case "as" => O_CREAT|O_APPEND|O_WRONLY|O_SYNC
       case "ads" => O_CREAT|O_APPEND|O_WRONLY|O_DSYNC
       case "r" => O_RDONLY
       case "r+" => O_RDWR
       case "rs+" => O_RDWR|O_SYNC
       case "rds+" => O_RDWR|O_DSYNC
-      case "w" => O_CREAT|O_WRONLY
-      case "w+" => O_CREAT|O_RDWR
+      case "w" => O_CREAT|O_TRUNC|O_WRONLY
+      case "wx" => O_CREAT|O_TRUNC|O_EXCL|O_WRONLY
+      case "w+" => O_CREAT|O_TRUNC|O_RDWR
+      case "wx+" => O_CREAT|O_TRUNC|O_EXCL|O_RDWR
 
   open(path, flagbits, mode)
