@@ -25,10 +25,9 @@ def readFile(path: String): Future[ArraySeq[Byte]] =
           req.buffer.read(buf, res)
           defaultLoop.read(openres, readcb)
         else
-          defaultLoop.close(openres)
-          promise.success(buf to ArraySeq)
+          def closecb(req: FileReq): Unit = promise.success(buf to ArraySeq)
 
-        req.buffer.dispose()
+          defaultLoop.close(openres, closecb)
 
       defaultLoop.read(openres, readcb)
 
