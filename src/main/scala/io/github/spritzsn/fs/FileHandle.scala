@@ -25,10 +25,8 @@ implicit class FileHandle(val fd: Int) extends AnyVal:
 
   def write(data: String, codec: Codec = Codec.UTF8): Future[FileHandle] = write(data.getBytes(codec.charSet))
 
-  def close(): Future[Unit] =
+  def close: Future[Unit] =
     val promise = Promise[Unit]()
 
-    def closecb(req: FileReq): Unit = promise.success(())
-
-    defaultLoop.close(fd, closecb)
+    defaultLoop.close(fd, _ => promise.success(()))
     promise.future

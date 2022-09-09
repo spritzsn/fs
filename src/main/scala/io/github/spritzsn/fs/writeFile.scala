@@ -15,7 +15,7 @@ def writeFile(path: String, data: collection.IndexedSeq[Byte], flags: Int, mode:
   val file = await(open(path, flags, mode))
 
   await(file.write(data))
-  await(file.close())
+  await(file.close)
 }
 
 def writeFile(path: String, data: String, flags: Int, mode: Int, codec: Codec = Codec.UTF8): Future[Unit] =
