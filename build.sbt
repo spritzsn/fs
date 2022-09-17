@@ -1,8 +1,8 @@
 name := "fs"
 
-version := "0.0.7"
+version := "0.0.8"
 
-scalaVersion := "3.1.3"
+scalaVersion := "3.2.0"
 
 enablePlugins(ScalaNativePlugin)
 
@@ -38,8 +38,8 @@ homepage := Some(url("https://github.com/spritzsn/" + name.value))
 //libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.13" % "test"
 
 libraryDependencies ++= Seq(
-  "io.github.spritzsn" %%% "libuv" % "0.0.23",
-  "io.github.spritzsn" %%% "async" % "0.0.9",
+  "io.github.spritzsn" %%% "libuv" % "0.0.27",
+  "io.github.spritzsn" %%% "async" % "0.0.13",
 )
 
 //libraryDependencies ++= Seq(
